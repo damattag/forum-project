@@ -25,11 +25,11 @@
 		}
 	},
 	"formatter": {
-		"lineWidth": 100
+		"lineWidth": 90
 	},
 	"javascript": {
 		"formatter": {
-			"lineWidth": 100,
+			"lineWidth": 90,
 			"quoteStyle": "single"
 		}
 	}
