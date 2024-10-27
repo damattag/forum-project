@@ -1,36 +1,39 @@
-import { ConflictException } from "@nestjs/common";
-import { Body, Controller, HttpCode, HttpStatus, Post } from "@nestjs/common";
-import { hash } from "bcryptjs";
-import { createAccountBodyValidationSchema, CreateAccountBodySchema } from "src/dtos/create-account.dto";
-import { PrismaService } from "src/prisma/prisma.service";
+import { ConflictException } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { hash } from 'bcryptjs';
+import {
+	type CreateAccountBodySchema,
+	createAccountBodyValidationSchema,
+} from '../dtos/create-account.dto';
+import type { PrismaService } from '../prisma/prisma.service';
 
-@Controller("accounts")
+@Controller('/accounts')
 export class CreateAccountController {
-  constructor(private readonly prisma: PrismaService) { }
-  
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async handle(@Body(createAccountBodyValidationSchema) body: CreateAccountBodySchema) {
-    const { name, email, password } = body;
+	constructor(private readonly prisma: PrismaService) {}
 
-    const userWithSameEmail = await this.prisma.user.findUnique({
-      where: {
-        email,
-      },
-    });
+	@Post()
+	@HttpCode(HttpStatus.CREATED)
+	async handle(@Body(createAccountBodyValidationSchema) body: CreateAccountBodySchema) {
+		const { name, email, password } = body;
 
-    if (userWithSameEmail) {
-      throw new ConflictException("User with this email already exists");
-    }
+		const userWithSameEmail = await this.prisma.user.findUnique({
+			where: {
+				email,
+			},
+		});
 
-    const hashedPassword = await hash(password, 8);
-    
-    return this.prisma.user.create({
-      data: {
-        email,
-        name,
-        password: hashedPassword,
-      },
-    });
-  }
+		if (userWithSameEmail) {
+			throw new ConflictException('User with this email already exists');
+		}
+
+		const hashedPassword = await hash(password, 8);
+
+		return this.prisma.user.create({
+			data: {
+				email,
+				name,
+				password: hashedPassword,
+			},
+		});
+	}
 }
