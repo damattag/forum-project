@@ -23,7 +23,8 @@
 				"useImportType": { "level": "off" }
 			},
 			"suspicious": {
-				"noExplicitAny": { "level": "off" }
+				"noExplicitAny": { "level": "off" },
+				"noMisleadingCharacterClass": { "level": "off" }
 			}
 		}
 	},
