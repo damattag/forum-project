@@ -5,7 +5,7 @@ import {
 	type CreateAccountBodySchema,
 	createAccountBodyValidationSchema,
 } from '../dtos/create-account.dto';
-import type { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Controller('/accounts')
 export class CreateAccountController {

@@ -6,9 +6,9 @@ import {
 	Post,
 	UnauthorizedException,
 } from '@nestjs/common';
-import type { JwtService } from '@nestjs/jwt';
+import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
-import type { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import {
 	type AuthenticateBodySchema,
 	authenticateBodyValidationSchema,
