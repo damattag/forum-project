@@ -4,9 +4,10 @@ import { AuthModule } from './auth/auth.module';
 import { AuthenticateController } from './controllers/authenticate.controller';
 import { CreateAccountController } from './controllers/create-account.controller';
 import { CreateQuestionController } from './controllers/create-question.controller';
+import { FetchRecentQuestionsController } from './controllers/fetch-recent-questions.controller';
+import { EnvModule } from './env/env.module';
 import { envSchema } from './env/handler';
 import { PrismaService } from './prisma/prisma.service';
-import { EnvModule } from './env/env.module';
 
 @Module({
 	imports: [
@@ -21,6 +22,7 @@ import { EnvModule } from './env/env.module';
 		CreateAccountController,
 		AuthenticateController,
 		CreateQuestionController,
+		FetchRecentQuestionsController,
 	],
 	providers: [PrismaService],
 })
