@@ -1,32 +1,39 @@
-import { Controller, Get, HttpCode, HttpStatus, Query, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import {
-	FetchRecentQuestionsQueryParamsSchema,
-	fetchRecentQuestionsQueryParamsValidationSchema,
-} from 'src/dtos/fetch-recent-questions.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Query,
+  UseGuards,
+} from "@nestjs/common";
+import { AuthGuard } from "@nestjs/passport";
+import {
+  FetchRecentQuestionsQueryParamsSchema,
+  fetchRecentQuestionsQueryParamsValidationSchema,
+} from "@/dtos/fetch-recent-questions.dto";
+import { PrismaService } from "@/prisma/prisma.service";
 
-@Controller('/questions')
-@UseGuards(AuthGuard('jwt'))
+@Controller("/questions")
+@UseGuards(AuthGuard("jwt"))
 export class FetchRecentQuestionsController {
-	constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-	@Get()
-	@HttpCode(HttpStatus.OK)
-	async handle(
-		@Query(fetchRecentQuestionsQueryParamsValidationSchema)
-		queryRaw: FetchRecentQuestionsQueryParamsSchema,
-	) {
-		const { page, limit } = queryRaw;
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  async handle(
+    @Query(fetchRecentQuestionsQueryParamsValidationSchema)
+    queryRaw: FetchRecentQuestionsQueryParamsSchema
+  ) {
+    const { page, limit } = queryRaw;
 
-		const questions = await this.prisma.question.findMany({
-			orderBy: {
-				createdAt: 'desc',
-			},
-			take: limit,
-			skip: (page - 1) * limit,
-		});
+    const questions = await this.prisma.question.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      take: limit,
+      skip: (page - 1) * limit,
+    });
 
-		return { questions };
-	}
+    return { questions };
+  }
 }
