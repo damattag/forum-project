@@ -1,3 +1,4 @@
+import { PrismaService } from "@/prisma/prisma.service";
 import {
   Body,
   Controller,
@@ -8,7 +9,6 @@ import {
 } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { compare } from "bcryptjs";
-import { PrismaService } from "@/prisma/prisma.service";
 import {
   type AuthenticateBodySchema,
   authenticateBodyValidationSchema,
@@ -33,6 +33,8 @@ export class AuthenticateController {
         email,
       },
     });
+
+    console.log(user);
 
     if (!user) {
       throw new UnauthorizedException("invalid credentials");
