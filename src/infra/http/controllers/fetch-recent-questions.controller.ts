@@ -5,6 +5,7 @@ import {
 } from '@/infra/http/dtos/fetch-recent-questions.dto';
 import { Controller, Get, HttpCode, HttpStatus, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { QuestionPresenter } from '../presenters/question.presenter';
 
 @Controller('/questions')
 @UseGuards(AuthGuard('jwt'))
@@ -19,8 +20,14 @@ export class FetchRecentQuestionsController {
 	) {
 		const { page, limit } = queryRaw;
 
-		const questions = await this.useCase.execute({ page, limit });
+		const result = await this.useCase.execute({ page, limit });
 
-		return { questions };
+		if (result.isLeft()) {
+			throw new Error('Something went wrong');
+		}
+
+		const { questions } = result.value;
+
+		return { questions: questions.map(QuestionPresenter.toHttp) };
 	}
 }

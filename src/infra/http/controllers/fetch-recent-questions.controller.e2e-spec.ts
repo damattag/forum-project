@@ -59,5 +59,6 @@ describe('Fetch recent questions (E2E)', () => {
 		expect(response.status).toBe(200);
 		expect(response.body.questions).toHaveLength(2);
 		expect(response.body.questions[0].title).toBe('What is the meaning of life?');
+		expect(response.body.questions[0].slug).toBe('what-is-the-meaning-of-life');
 	});
 });
