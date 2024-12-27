@@ -1,8 +1,8 @@
 import { type Either, left, right } from '@/core/either';
 import { NotAllowedException } from '@/core/exceptions/exceptions/not-allowed.exception';
 import { ResourceNotFoundException } from '@/core/exceptions/exceptions/resource-not-found.exception';
+import type { NotificationsRepository } from '@/domain/notification/application/repositories/notification.repository';
 import type { Notification } from '@/domain/notification/enterprise/entities/notification.entity';
-import type { NotificationsRepository } from '../repositories/notification.repository';
 
 interface ReadNotificationUseCaseRequest {
 	notificationId: string;

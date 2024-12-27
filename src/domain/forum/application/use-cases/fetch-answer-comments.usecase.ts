@@ -7,7 +7,10 @@ interface FetchAnswerCommentsUseCaseRequest {
 	page: number;
 }
 
-type FetchAnswerCommentsUseCaseResponse = Either<void, { answerComments: AnswerComment[] }>;
+type FetchAnswerCommentsUseCaseResponse = Either<
+	void,
+	{ answerComments: AnswerComment[] }
+>;
 
 export class FetchAnswerCommentsUseCase {
 	constructor(private answerCommentsRepository: AnswerCommentsRepository) {}

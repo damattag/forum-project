@@ -1,11 +1,17 @@
-import { ConflictException } from '@nestjs/common';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { hash } from 'bcryptjs';
 import {
 	type CreateAccountBodySchema,
 	createAccountBodyValidationSchema,
-} from '../dtos/create-account.dto';
-import { PrismaService } from '../prisma/prisma.service';
+} from '@/infra/http/dtos/create-account.dto';
+import { PrismaService } from '@/infra/prisma/prisma.service';
+import {
+	Body,
+	ConflictException,
+	Controller,
+	HttpCode,
+	HttpStatus,
+	Post,
+} from '@nestjs/common';
+import { hash } from 'bcryptjs';
 
 @Controller('/accounts')
 export class CreateAccountController {

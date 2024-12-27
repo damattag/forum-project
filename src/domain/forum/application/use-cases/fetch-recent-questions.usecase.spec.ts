@@ -17,9 +17,15 @@ describe('Fetch recent questions', () => {
 	});
 
 	it('should be able to fetch recent questions', async () => {
-		await inMemoryQuestionsRepository.create(makeQuestion({ createdAt: new Date(2024, 9, 7) }));
-		await inMemoryQuestionsRepository.create(makeQuestion({ createdAt: new Date(2024, 9, 8) }));
-		await inMemoryQuestionsRepository.create(makeQuestion({ createdAt: new Date(2024, 9, 9) }));
+		await inMemoryQuestionsRepository.create(
+			makeQuestion({ createdAt: new Date(2024, 9, 7) }),
+		);
+		await inMemoryQuestionsRepository.create(
+			makeQuestion({ createdAt: new Date(2024, 9, 8) }),
+		);
+		await inMemoryQuestionsRepository.create(
+			makeQuestion({ createdAt: new Date(2024, 9, 9) }),
+		);
 
 		const result = await sut.execute({
 			page: 1,

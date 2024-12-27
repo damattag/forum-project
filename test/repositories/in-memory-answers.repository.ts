@@ -49,7 +49,10 @@ export class InMemoryAnswersRepository implements AnswersRepository {
 		return answer;
 	}
 
-	async listByQuestionId(questionId: string, { page }: PaginationParams): Promise<Answer[]> {
+	async listByQuestionId(
+		questionId: string,
+		{ page }: PaginationParams,
+	): Promise<Answer[]> {
 		const answers = this.items
 			.filter((answer) => answer.questionId.toString() === questionId)
 			.slice((page - 1) * 20, page * 20);

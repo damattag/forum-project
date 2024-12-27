@@ -31,8 +31,14 @@ describe('Edit Question', () => {
 		inMemoryQuestionsRepository.create(newQuestion);
 
 		inMemoryQuestionAttachmentsRepository.items.push(
-			makeQuestionAttachment({ attachmentId: new UniqueEntityId('1'), questionId: newQuestion.id }),
-			makeQuestionAttachment({ attachmentId: new UniqueEntityId('2'), questionId: newQuestion.id }),
+			makeQuestionAttachment({
+				attachmentId: new UniqueEntityId('1'),
+				questionId: newQuestion.id,
+			}),
+			makeQuestionAttachment({
+				attachmentId: new UniqueEntityId('2'),
+				questionId: newQuestion.id,
+			}),
 		);
 
 		await sut.execute({

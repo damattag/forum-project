@@ -1,7 +1,7 @@
 import { AggregateRoot } from '@/core/entities/aggregate-root';
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import type { Optional } from '@/core/types/optional';
-import { AnswerCreatedEvent } from '../events/answer-created.event';
+import { AnswerCreatedEvent } from '@/domain/forum/enterprise/events/answer-created.event';
 import { AnswerAttachmentList } from './answer-attachment-list.entity';
 
 export interface AnswerProps {
@@ -56,7 +56,10 @@ export class Answer extends AggregateRoot<AnswerProps> {
 		this.touch();
 	}
 
-	static create(props: Optional<AnswerProps, 'createdAt' | 'attachments'>, id?: UniqueEntityId) {
+	static create(
+		props: Optional<AnswerProps, 'createdAt' | 'attachments'>,
+		id?: UniqueEntityId,
+	) {
 		const answer = new Answer(
 			{
 				...props,

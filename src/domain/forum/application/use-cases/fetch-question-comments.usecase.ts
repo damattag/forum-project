@@ -7,7 +7,10 @@ interface FetchQuestionCommentsUseCaseRequest {
 	page: number;
 }
 
-type FetchQuestionCommentsUseCaseResponse = Either<void, { questionComments: QuestionComment[] }>;
+type FetchQuestionCommentsUseCaseResponse = Either<
+	void,
+	{ questionComments: QuestionComment[] }
+>;
 
 export class FetchQuestionCommentsUseCase {
 	constructor(private questionCommentsRepository: QuestionCommentsRepository) {}
@@ -15,9 +18,12 @@ export class FetchQuestionCommentsUseCase {
 		questionId,
 		page,
 	}: FetchQuestionCommentsUseCaseRequest): Promise<FetchQuestionCommentsUseCaseResponse> {
-		const questionComments = await this.questionCommentsRepository.listByQuestionId(questionId, {
-			page,
-		});
+		const questionComments = await this.questionCommentsRepository.listByQuestionId(
+			questionId,
+			{
+				page,
+			},
+		);
 
 		return right({
 			questionComments,

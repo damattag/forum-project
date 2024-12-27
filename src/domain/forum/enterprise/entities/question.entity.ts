@@ -2,8 +2,8 @@ import { AggregateRoot } from '@/core/entities/aggregate-root';
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import type { Optional } from '@/core/types/optional';
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug';
+import { QuestionBestAnswerChosenEvent } from '@/domain/forum/enterprise/events/question-best-answer-chosen.event';
 import dayjs from 'dayjs';
-import { QuestionBestAnswerChosenEvent } from '../events/question-best-answer-chosen.event';
 import { QuestionAttachmentList } from './question-attachment-list.entity';
 
 export interface QuestionProps {
@@ -84,7 +84,10 @@ export class Question extends AggregateRoot<QuestionProps> {
 			return;
 		}
 
-		if (this.props.bestAnswerId === undefined || !this.props.bestAnswerId.equals(bestAnswerId)) {
+		if (
+			this.props.bestAnswerId === undefined ||
+			!this.props.bestAnswerId.equals(bestAnswerId)
+		) {
 			this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId));
 		}
 

@@ -22,7 +22,9 @@ export class InMemoryQuestionCommentsRepository implements QuestionCommentsRepos
 	}
 
 	async delete(questionComment: QuestionComment): Promise<void> {
-		const questionCommentIndex = this.items.findIndex((item) => item.id === questionComment.id);
+		const questionCommentIndex = this.items.findIndex(
+			(item) => item.id === questionComment.id,
+		);
 
 		if (questionCommentIndex === -1) {
 			throw new Error('Question comment not found');

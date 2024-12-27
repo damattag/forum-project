@@ -11,14 +11,22 @@ let sut: FetchQuestionAnswersUseCase;
 describe('Fetch question answers', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		sut = new FetchQuestionAnswersUseCase(inMemoryAnswersRepository);
 	});
 
 	it('should be able to fetch question answers', async () => {
-		await inMemoryAnswersRepository.create(makeAnswer({ questionId: new UniqueEntityId('1') }));
-		await inMemoryAnswersRepository.create(makeAnswer({ questionId: new UniqueEntityId('1') }));
-		await inMemoryAnswersRepository.create(makeAnswer({ questionId: new UniqueEntityId('1') }));
+		await inMemoryAnswersRepository.create(
+			makeAnswer({ questionId: new UniqueEntityId('1') }),
+		);
+		await inMemoryAnswersRepository.create(
+			makeAnswer({ questionId: new UniqueEntityId('1') }),
+		);
+		await inMemoryAnswersRepository.create(
+			makeAnswer({ questionId: new UniqueEntityId('1') }),
+		);
 
 		const result = await sut.execute({
 			questionId: '1',
@@ -31,7 +39,9 @@ describe('Fetch question answers', () => {
 
 	it('should be able to fetch paginated answers answers', async () => {
 		for (let i = 0; i < 25; i++) {
-			await inMemoryAnswersRepository.create(makeAnswer({ questionId: new UniqueEntityId('1') }));
+			await inMemoryAnswersRepository.create(
+				makeAnswer({ questionId: new UniqueEntityId('1') }),
+			);
 		}
 
 		const result = await sut.execute({

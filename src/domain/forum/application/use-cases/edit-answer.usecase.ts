@@ -5,9 +5,9 @@ import type { Answer } from '@/domain/forum/enterprise/entities/answer.entity';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { NotAllowedException } from '@/core/exceptions/exceptions/not-allowed.exception';
 import { ResourceNotFoundException } from '@/core/exceptions/exceptions/resource-not-found.exception';
-import { AnswerAttachmentList } from '../../enterprise/entities/answer-attachment-list.entity';
-import { AnswerAttachment } from '../../enterprise/entities/answer-attachment.entity';
-import type { AnswerAttachmentsRepository } from '../repositories/answer-attachments.repository';
+import type { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments.repository';
+import { AnswerAttachmentList } from '@/domain/forum/enterprise/entities/answer-attachment-list.entity';
+import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment.entity';
 
 interface EditAnswerUseCaseRequest {
 	authorId: string;

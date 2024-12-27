@@ -1,14 +1,17 @@
 import { type Either, left, right } from '@/core/either';
 import { NotAllowedException } from '@/core/exceptions/exceptions/not-allowed.exception';
 import { ResourceNotFoundException } from '@/core/exceptions/exceptions/resource-not-found.exception';
-import type { AnswersRepository } from '../repositories/answers.repository';
+import type { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
 
 interface DeleteAnswerUseCaseRequest {
 	answerId: string;
 	authorId: string;
 }
 
-type DeleteAnswerUseCaseResponse = Either<ResourceNotFoundException | NotAllowedException, void>;
+type DeleteAnswerUseCaseResponse = Either<
+	ResourceNotFoundException | NotAllowedException,
+	void
+>;
 
 export class DeleteAnswerUseCase {
 	constructor(private answersRepository: AnswersRepository) {}

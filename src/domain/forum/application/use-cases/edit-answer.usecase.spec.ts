@@ -13,8 +13,13 @@ let sut: EditAnswerUseCase;
 describe('Edit Answer', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
-		sut = new EditAnswerUseCase(inMemoryAnswersRepository, inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
+		sut = new EditAnswerUseCase(
+			inMemoryAnswersRepository,
+			inMemoryAnswerAttachmentsRepository,
+		);
 	});
 
 	it('should be able to edit a answer', async () => {
@@ -26,8 +31,14 @@ describe('Edit Answer', () => {
 		inMemoryAnswersRepository.create(newAnswer);
 
 		inMemoryAnswerAttachmentsRepository.items.push(
-			makeAnswerAttachment({ attachmentId: new UniqueEntityId('1'), answerId: newAnswer.id }),
-			makeAnswerAttachment({ attachmentId: new UniqueEntityId('2'), answerId: newAnswer.id }),
+			makeAnswerAttachment({
+				attachmentId: new UniqueEntityId('1'),
+				answerId: newAnswer.id,
+			}),
+			makeAnswerAttachment({
+				attachmentId: new UniqueEntityId('2'),
+				answerId: newAnswer.id,
+			}),
 		);
 
 		await sut.execute({

@@ -12,7 +12,9 @@ let sut: DeleteAnswerUseCase;
 describe('Delete Answer', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		sut = new DeleteAnswerUseCase(inMemoryAnswersRepository);
 	});
 

@@ -20,7 +20,9 @@ describe('Choose Question best answer', () => {
 		inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
 			inMemoryQuestionAttachmentsRepository,
 		);
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		sut = new ChooseQuestionBestAnswerUseCase(
 			inMemoryAnswersRepository,
 			inMemoryQuestionsRepository,

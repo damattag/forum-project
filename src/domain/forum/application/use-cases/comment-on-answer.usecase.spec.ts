@@ -12,9 +12,14 @@ let sut: CommentOnAnswerUseCase;
 describe('Comment on answer', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		inMemoryAnswerCommentsRepository = new InMemoryAnswerCommentsRepository();
-		sut = new CommentOnAnswerUseCase(inMemoryAnswersRepository, inMemoryAnswerCommentsRepository);
+		sut = new CommentOnAnswerUseCase(
+			inMemoryAnswersRepository,
+			inMemoryAnswerCommentsRepository,
+		);
 	});
 
 	it('should be able to comment on answer', async () => {

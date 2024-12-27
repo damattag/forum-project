@@ -1,5 +1,5 @@
-import type { DomainEvent } from '../events/domain-event';
-import { DomainEvents } from '../events/domains-events';
+import type { DomainEvent } from '@/core/events/domain-event';
+import { DomainEvents } from '@/core/events/domains-events';
 import { Entity } from './entity';
 
 export abstract class AggregateRoot<Props> extends Entity<Props> {

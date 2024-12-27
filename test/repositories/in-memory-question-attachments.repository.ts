@@ -1,7 +1,9 @@
 import type { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments.repository';
 import type { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment.entity';
 
-export class InMemoryQuestionAttachmentsRepository implements QuestionAttachmentsRepository {
+export class InMemoryQuestionAttachmentsRepository
+	implements QuestionAttachmentsRepository
+{
 	public items: QuestionAttachment[] = [];
 
 	async listByQuestionId(questionId: string): Promise<QuestionAttachment[]> {

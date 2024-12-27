@@ -1,3 +1,4 @@
+import { SendNotificationUseCase } from '@/domain/notification/application/use-cases/send-notification.usecase';
 import { makeAnswer } from 'test/factories/make-answer';
 import { makeQuestion } from 'test/factories/make-question';
 import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments.repository';
@@ -7,7 +8,6 @@ import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memo
 import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions.repository';
 import { waitFor } from 'test/utils/wait-for';
 import type { MockInstance } from 'vitest';
-import { SendNotificationUseCase } from '../use-cases/send-notification.usecase';
 import { OnQuestionBestAnswerChosen } from './on-question-best-answer-chosen.subscriber';
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
@@ -22,7 +22,9 @@ let sendNotificationExecuteSpy: MockInstance;
 describe('On Question Best Answer Chosen', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		inMemoryQuestionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository();
 		inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
 			inMemoryQuestionAttachmentsRepository,

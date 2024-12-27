@@ -1,5 +1,5 @@
-import { AggregateRoot } from '../entities/aggregate-root';
-import type { UniqueEntityId } from '../entities/unique-entity-id';
+import { AggregateRoot } from '@/core/entities/aggregate-root';
+import type { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import type { DomainEvent } from './domain-event';
 import { DomainEvents } from './domains-events';
 

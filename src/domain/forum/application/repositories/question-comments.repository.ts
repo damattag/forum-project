@@ -5,5 +5,8 @@ export interface QuestionCommentsRepository {
 	create(questionComment: QuestionComment): Promise<void>;
 	findById(id: string): Promise<QuestionComment | null>;
 	delete(questionComment: QuestionComment): Promise<void>;
-	listByQuestionId(questionId: string, params: PaginationParams): Promise<QuestionComment[]>;
+	listByQuestionId(
+		questionId: string,
+		params: PaginationParams,
+	): Promise<QuestionComment[]>;
 }

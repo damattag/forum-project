@@ -10,7 +10,9 @@ export class InMemoryAnswerCommentsRepository implements AnswerCommentsRepositor
 	}
 
 	async delete(answerComment: AnswerComment): Promise<void> {
-		const answerCommentIndex = this.items.findIndex((item) => item.id === answerComment.id);
+		const answerCommentIndex = this.items.findIndex(
+			(item) => item.id === answerComment.id,
+		);
 
 		if (answerCommentIndex === -1) {
 			throw new Error('Answer comment not found');
@@ -23,7 +25,10 @@ export class InMemoryAnswerCommentsRepository implements AnswerCommentsRepositor
 		return this.items.find((item) => item.id.toString() === id) ?? null;
 	}
 
-	async listByAnswerId(answerId: string, params: PaginationParams): Promise<AnswerComment[]> {
+	async listByAnswerId(
+		answerId: string,
+		params: PaginationParams,
+	): Promise<AnswerComment[]> {
 		return this.items
 			.filter((answerComment) => answerComment.answerId.toString() === answerId)
 			.slice((params.page - 1) * 20, params.page * 20);

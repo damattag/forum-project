@@ -8,7 +8,10 @@ interface DeleteQuestionUseCaseRequest {
 	authorId: string;
 }
 
-type DeleteQuestionUseCaseResponse = Either<ResourceNotFoundException | NotAllowedException, void>;
+type DeleteQuestionUseCaseResponse = Either<
+	ResourceNotFoundException | NotAllowedException,
+	void
+>;
 
 export class DeleteQuestionUseCase {
 	constructor(private questionsRepository: QuestionsRepository) {}

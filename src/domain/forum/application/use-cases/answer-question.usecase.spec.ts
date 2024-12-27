@@ -10,7 +10,9 @@ let sut: AnswerQuestionUseCase;
 describe('Answer Question', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
-		inMemoryAnswersRepository = new InMemoryAnswersRepository(inMemoryAnswerAttachmentsRepository);
+		inMemoryAnswersRepository = new InMemoryAnswersRepository(
+			inMemoryAnswerAttachmentsRepository,
+		);
 		sut = new AnswerQuestionUseCase(inMemoryAnswersRepository);
 	});
 

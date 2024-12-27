@@ -27,7 +27,9 @@ describe('Delete question comment', () => {
 	});
 
 	it('should not be able to delete another user question comment', async () => {
-		const questionComment = makeQuestionComment({ authorId: new UniqueEntityId('user_1') });
+		const questionComment = makeQuestionComment({
+			authorId: new UniqueEntityId('user_1'),
+		});
 
 		await inMemoryQuestionCommentsRepository.create(questionComment);
 

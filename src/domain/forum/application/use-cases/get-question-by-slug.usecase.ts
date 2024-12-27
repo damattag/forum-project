@@ -7,7 +7,10 @@ interface GetQuestionBySlugUseCaseRequest {
 	slug: string;
 }
 
-type GetQuestionBySlugUseCaseResponse = Either<ResourceNotFoundException, { question: Question }>;
+type GetQuestionBySlugUseCaseResponse = Either<
+	ResourceNotFoundException,
+	{ question: Question }
+>;
 
 export class GetQuestionBySlugUseCase {
 	constructor(private questionsRepository: QuestionsRepository) {}

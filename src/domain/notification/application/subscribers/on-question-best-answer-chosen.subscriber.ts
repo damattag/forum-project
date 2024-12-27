@@ -2,7 +2,7 @@ import { DomainEvents } from '@/core/events/domains-events';
 import type { EventHandler } from '@/core/events/event-handler';
 import type { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
 import { QuestionBestAnswerChosenEvent } from '@/domain/forum/enterprise/events/question-best-answer-chosen.event';
-import type { SendNotificationUseCase } from '../use-cases/send-notification.usecase';
+import type { SendNotificationUseCase } from '@/domain/notification/application/use-cases/send-notification.usecase';
 
 export class OnQuestionBestAnswerChosen implements EventHandler {
 	constructor(
@@ -28,7 +28,9 @@ export class OnQuestionBestAnswerChosen implements EventHandler {
 
 		await this.sendNotification.execute({
 			title: 'Sua resposta foi escolhida!',
-			content: `A resposta que você enviou em "${event.question.title.substring(0, 20).concat('...')}" foi escolhida pelo autor.`,
+			content: `A resposta que você enviou em "${event.question.title
+				.substring(0, 20)
+				.concat('...')}" foi escolhida pelo autor.`,
 			recipientId: answer.authorId.toString(),
 		});
 	}
