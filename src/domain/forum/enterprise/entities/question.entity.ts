@@ -2,19 +2,19 @@ import { AggregateRoot } from '@/core/entities/aggregate-root';
 import type { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import type { Optional } from '@/core/types/optional';
 import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug';
-import { QuestionBestAnswerChosenEvent } from '@/domain/forum/enterprise/events/question-best-answer-chosen.event';
 import dayjs from 'dayjs';
+import { QuestionBestAnswerChosenEvent } from '../events/question-best-answer-chosen.event';
 import { QuestionAttachmentList } from './question-attachment-list.entity';
 
 export interface QuestionProps {
 	authorId: UniqueEntityId;
-	bestAnswerId?: UniqueEntityId;
+	bestAnswerId?: UniqueEntityId | null;
 	title: string;
 	content: string;
 	slug: Slug;
 	attachments: QuestionAttachmentList;
 	createdAt: Date;
-	updatedAt?: Date;
+	updatedAt?: Date | null;
 }
 
 export class Question extends AggregateRoot<QuestionProps> {
@@ -79,15 +79,8 @@ export class Question extends AggregateRoot<QuestionProps> {
 		this.touch();
 	}
 
-	set bestAnswerId(bestAnswerId: UniqueEntityId | undefined) {
-		if (bestAnswerId === undefined) {
-			return;
-		}
-
-		if (
-			this.props.bestAnswerId === undefined ||
-			!this.props.bestAnswerId.equals(bestAnswerId)
-		) {
+	set bestAnswerId(bestAnswerId: UniqueEntityId | undefined | null) {
+		if (bestAnswerId && bestAnswerId !== this.props.bestAnswerId) {
 			this.addDomainEvent(new QuestionBestAnswerChosenEvent(this, bestAnswerId));
 		}
 
