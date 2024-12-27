@@ -34,8 +34,6 @@ export class AuthenticateController {
       },
     });
 
-    console.log(user);
-
     if (!user) {
       throw new UnauthorizedException("invalid credentials");
     }
