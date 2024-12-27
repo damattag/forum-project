@@ -5,7 +5,15 @@ import {
 	CreateQuestionBodySchema,
 	createQuestionBodyValidationSchema,
 } from '@/infra/http/dtos/create-question.dto';
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+	BadRequestException,
+	Body,
+	Controller,
+	HttpCode,
+	HttpStatus,
+	Post,
+	UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('/questions')
@@ -21,11 +29,15 @@ export class CreateQuestionController {
 	) {
 		const { title, content } = body;
 
-		await this.useCase.execute({
+		const result = await this.useCase.execute({
 			title,
 			content,
 			authorId: user.sub,
 			attachmentsIds: [],
 		});
+
+		if (result.isLeft()) {
+			throw new BadRequestException();
+		}
 	}
 }

@@ -4,7 +4,15 @@ import {
 	fetchRecentQuestionsQueryParamsValidationSchema,
 } from '@/infra/http/dtos/fetch-recent-questions.dto';
 import { QuestionPresenter } from '@/infra/http/presenters/question.presenter';
-import { Controller, Get, HttpCode, HttpStatus, Query, UseGuards } from '@nestjs/common';
+import {
+	BadRequestException,
+	Controller,
+	Get,
+	HttpCode,
+	HttpStatus,
+	Query,
+	UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('/questions')
@@ -23,7 +31,7 @@ export class FetchRecentQuestionsController {
 		const result = await this.useCase.execute({ page, limit });
 
 		if (result.isLeft()) {
-			throw new Error('Something went wrong');
+			throw new BadRequestException();
 		}
 
 		const { questions } = result.value;

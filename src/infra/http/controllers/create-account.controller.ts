@@ -1,9 +1,18 @@
+import { StudentAlreadyExistsException } from '@/domain/forum/application/use-cases/exceptions/student-already-exists.exception';
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student.usecase';
 import {
 	type CreateAccountBodySchema,
 	createAccountBodyValidationSchema,
 } from '@/infra/http/dtos/create-account.dto';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+	BadRequestException,
+	Body,
+	ConflictException,
+	Controller,
+	HttpCode,
+	HttpStatus,
+	Post,
+} from '@nestjs/common';
 
 @Controller('/accounts')
 export class CreateAccountController {
@@ -14,6 +23,17 @@ export class CreateAccountController {
 	async handle(@Body(createAccountBodyValidationSchema) body: CreateAccountBodySchema) {
 		const { name, email, password } = body;
 
-		await this.useCase.execute({ name, email, password });
+		const result = await this.useCase.execute({ name, email, password });
+
+		if (result.isLeft()) {
+			const error = result.value;
+
+			switch (error.constructor) {
+				case StudentAlreadyExistsException:
+					throw new ConflictException(error.message);
+				default:
+					throw new BadRequestException(error.message);
+			}
+		}
 	}
 }

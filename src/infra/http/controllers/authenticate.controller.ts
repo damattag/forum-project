@@ -1,9 +1,18 @@
 import { AuthenticateStudentUseCase } from '@/domain/forum/application/use-cases/authenticate-student.usecase';
+import { InvalidCredentialsException } from '@/domain/forum/application/use-cases/exceptions/invalid-credentials.exception';
 import {
 	type AuthenticateBodySchema,
 	authenticateBodyValidationSchema,
 } from '@/infra/http/dtos/authenticate.dto';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+	BadRequestException,
+	Body,
+	Controller,
+	HttpCode,
+	HttpStatus,
+	Post,
+	UnauthorizedException,
+} from '@nestjs/common';
 
 @Controller('/sessions')
 export class AuthenticateController {
@@ -17,7 +26,14 @@ export class AuthenticateController {
 		const result = await this.useCase.execute({ email, password });
 
 		if (result.isLeft()) {
-			throw new Error('Something went wrong');
+			const error = result.value;
+
+			switch (error.constructor) {
+				case InvalidCredentialsException:
+					throw new UnauthorizedException(error.message);
+				default:
+					throw new BadRequestException(error.message);
+			}
 		}
 
 		const { accessToken } = result.value;
