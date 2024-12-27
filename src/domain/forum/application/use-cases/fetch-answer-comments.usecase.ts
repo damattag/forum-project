@@ -5,6 +5,7 @@ import type { AnswerComment } from '@/domain/forum/enterprise/entities/answer-co
 interface FetchAnswerCommentsUseCaseRequest {
 	answerId: string;
 	page: number;
+	limit: number;
 }
 
 type FetchAnswerCommentsUseCaseResponse = Either<
@@ -17,9 +18,11 @@ export class FetchAnswerCommentsUseCase {
 	async execute({
 		answerId,
 		page,
+		limit,
 	}: FetchAnswerCommentsUseCaseRequest): Promise<FetchAnswerCommentsUseCaseResponse> {
 		const answerComments = await this.answerCommentsRepository.listByAnswerId(answerId, {
 			page,
+			limit,
 		});
 
 		return right({

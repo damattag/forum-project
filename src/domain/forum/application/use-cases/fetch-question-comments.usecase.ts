@@ -5,6 +5,7 @@ import type { QuestionComment } from '@/domain/forum/enterprise/entities/questio
 interface FetchQuestionCommentsUseCaseRequest {
 	questionId: string;
 	page: number;
+	limit: number;
 }
 
 type FetchQuestionCommentsUseCaseResponse = Either<
@@ -17,11 +18,13 @@ export class FetchQuestionCommentsUseCase {
 	async execute({
 		questionId,
 		page,
+		limit,
 	}: FetchQuestionCommentsUseCaseRequest): Promise<FetchQuestionCommentsUseCaseResponse> {
 		const questionComments = await this.questionCommentsRepository.listByQuestionId(
 			questionId,
 			{
 				page,
+				limit,
 			},
 		);
 

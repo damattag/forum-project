@@ -1,4 +1,4 @@
-import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { FetchRecentQuestionsUseCase } from '@/domain/forum/application/use-cases/fetch-recent-questions.usecase';
 import {
 	FetchRecentQuestionsQueryParamsSchema,
 	fetchRecentQuestionsQueryParamsValidationSchema,
@@ -9,7 +9,7 @@ import { AuthGuard } from '@nestjs/passport';
 @Controller('/questions')
 @UseGuards(AuthGuard('jwt'))
 export class FetchRecentQuestionsController {
-	constructor(private readonly prisma: PrismaService) {}
+	constructor(private readonly useCase: FetchRecentQuestionsUseCase) {}
 
 	@Get()
 	@HttpCode(HttpStatus.OK)
@@ -19,13 +19,7 @@ export class FetchRecentQuestionsController {
 	) {
 		const { page, limit } = queryRaw;
 
-		const questions = await this.prisma.question.findMany({
-			orderBy: {
-				createdAt: 'desc',
-			},
-			take: limit,
-			skip: (page - 1) * limit,
-		});
+		const questions = await this.useCase.execute({ page, limit });
 
 		return { questions };
 	}
