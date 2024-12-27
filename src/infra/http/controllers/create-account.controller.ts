@@ -1,5 +1,6 @@
 import { StudentAlreadyExistsException } from '@/domain/forum/application/use-cases/exceptions/student-already-exists.exception';
 import { RegisterStudentUseCase } from '@/domain/forum/application/use-cases/register-student.usecase';
+import { Public } from '@/infra/auth/public';
 import {
 	type CreateAccountBodySchema,
 	createAccountBodyValidationSchema,
@@ -15,6 +16,7 @@ import {
 } from '@nestjs/common';
 
 @Controller('/accounts')
+@Public()
 export class CreateAccountController {
 	constructor(private readonly useCase: RegisterStudentUseCase) {}
 

@@ -1,5 +1,6 @@
 import { AuthenticateStudentUseCase } from '@/domain/forum/application/use-cases/authenticate-student.usecase';
 import { InvalidCredentialsException } from '@/domain/forum/application/use-cases/exceptions/invalid-credentials.exception';
+import { Public } from '@/infra/auth/public';
 import {
 	type AuthenticateBodySchema,
 	authenticateBodyValidationSchema,
@@ -15,6 +16,7 @@ import {
 } from '@nestjs/common';
 
 @Controller('/sessions')
+@Public()
 export class AuthenticateController {
 	constructor(private readonly useCase: AuthenticateStudentUseCase) {}
 

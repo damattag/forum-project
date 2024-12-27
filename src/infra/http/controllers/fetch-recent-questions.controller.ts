@@ -11,12 +11,9 @@ import {
 	HttpCode,
 	HttpStatus,
 	Query,
-	UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 
 @Controller('/questions')
-@UseGuards(AuthGuard('jwt'))
 export class FetchRecentQuestionsController {
 	constructor(private readonly useCase: FetchRecentQuestionsUseCase) {}
 
