@@ -1,10 +1,10 @@
 import { CurrentUser } from '@/infra/auth/current-user.decorator';
 import { UserPayload } from '@/infra/auth/jwt.strategy';
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import {
 	CreateQuestionBodySchema,
 	createQuestionBodyValidationSchema,
 } from '@/infra/http/dtos/create-question.dto';
-import { PrismaService } from '@/infra/prisma/prisma.service';
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 

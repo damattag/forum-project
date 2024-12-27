@@ -1,8 +1,8 @@
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import {
 	FetchRecentQuestionsQueryParamsSchema,
 	fetchRecentQuestionsQueryParamsValidationSchema,
 } from '@/infra/http/dtos/fetch-recent-questions.dto';
-import { PrismaService } from '@/infra/prisma/prisma.service';
 import { Controller, Get, HttpCode, HttpStatus, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 

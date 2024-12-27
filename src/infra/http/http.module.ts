@@ -1,4 +1,4 @@
-import { PrismaService } from '@/infra/prisma/prisma.service';
+import { DatabaseModule } from '@/infra/database/database.module';
 import { Module } from '@nestjs/common';
 import { AuthenticateController } from './controllers/authenticate.controller';
 import { CreateAccountController } from './controllers/create-account.controller';
@@ -6,12 +6,12 @@ import { CreateQuestionController } from './controllers/create-question.controll
 import { FetchRecentQuestionsController } from './controllers/fetch-recent-questions.controller';
 
 @Module({
+	imports: [DatabaseModule],
 	controllers: [
 		CreateAccountController,
 		AuthenticateController,
 		CreateQuestionController,
 		FetchRecentQuestionsController,
 	],
-	providers: [PrismaService],
 })
 export class HttpModule {}

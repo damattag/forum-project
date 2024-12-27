@@ -1,8 +1,8 @@
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import {
 	type CreateAccountBodySchema,
 	createAccountBodyValidationSchema,
 } from '@/infra/http/dtos/create-account.dto';
-import { PrismaService } from '@/infra/prisma/prisma.service';
 import {
 	Body,
 	ConflictException,

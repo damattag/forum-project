@@ -1,8 +1,8 @@
+import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import {
 	type AuthenticateBodySchema,
 	authenticateBodyValidationSchema,
 } from '@/infra/http/dtos/authenticate.dto';
-import { PrismaService } from '@/infra/prisma/prisma.service';
 import {
 	Body,
 	Controller,
