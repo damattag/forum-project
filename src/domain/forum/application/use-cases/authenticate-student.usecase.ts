@@ -1,8 +1,8 @@
 import { type Either, left, right } from '@/core/either';
+import { Encrypter } from '@/domain/forum/application/cryptography/encrypter';
+import { HashComparer } from '@/domain/forum/application/cryptography/hash-comparer';
 import { StudentsRepository } from '@/domain/forum/application/repositories/students.repository';
 import { Injectable } from '@nestjs/common';
-import { Encrypter } from '../cryptography/encrypter';
-import { HashComparer } from '../cryptography/hash-comparer';
 import { InvalidCredentialsException } from './exceptions/invalid-credentials.exception';
 
 interface AuthenticateStudentUseCaseRequest {

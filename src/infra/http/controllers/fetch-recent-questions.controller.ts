@@ -3,9 +3,9 @@ import {
 	FetchRecentQuestionsQueryParamsSchema,
 	fetchRecentQuestionsQueryParamsValidationSchema,
 } from '@/infra/http/dtos/fetch-recent-questions.dto';
+import { QuestionPresenter } from '@/infra/http/presenters/question.presenter';
 import { Controller, Get, HttpCode, HttpStatus, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { QuestionPresenter } from '../presenters/question.presenter';
 
 @Controller('/questions')
 @UseGuards(AuthGuard('jwt'))
