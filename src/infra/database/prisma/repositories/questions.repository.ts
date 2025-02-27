@@ -1,8 +1,9 @@
 import { PaginationParams } from '@/core/repositories/pagination-params';
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
-import type { Question } from '@/domain/forum/enterprise/entities/question.entity';
+import { Question } from '@/domain/forum/enterprise/entities/question.entity';
 import { PrismaQuestionMapper } from '@/infra/database/prisma/mappers/question-mapper';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { getPagination } from '@/infra/database/utils/get_pagination';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -64,15 +65,15 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 		});
 	}
 
-	async listRecent({ page }: PaginationParams): Promise<Question[]> {
-		const take = 10;
+	async listRecent(pagination: PaginationParams): Promise<Question[]> {
+		const { skip, take } = getPagination(pagination);
 
 		const questions = await this.prisma.question.findMany({
 			orderBy: {
 				createdAt: 'desc',
 			},
 			take,
-			skip: (page - 1) * take,
+			skip,
 		});
 
 		return questions.map(PrismaQuestionMapper.toDomain);

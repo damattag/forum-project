@@ -1,18 +1,18 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
-import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment.entity';
+import { QuestionComment } from '@/domain/forum/enterprise/entities/question-comment.entity';
 import { Prisma, Comment as PrismaComment } from '@prisma/client';
 
-export class PrismaAnswerCommentMapper {
-	static toDomain(raw: PrismaComment): AnswerComment {
-		if (!raw.answerId) {
+export class PrismaQuestionCommentMapper {
+	static toDomain(raw: PrismaComment): QuestionComment {
+		if (!raw.questionId) {
 			throw new Error('Invalid comment type.');
 		}
 
-		return AnswerComment.create(
+		return QuestionComment.create(
 			{
 				content: raw.content,
 				authorId: new UniqueEntityId(raw.authorId),
-				answerId: new UniqueEntityId(raw.answerId),
+				questionId: new UniqueEntityId(raw.questionId),
 				createdAt: raw.createdAt,
 				updatedAt: raw.updatedAt,
 			},
@@ -20,14 +20,16 @@ export class PrismaAnswerCommentMapper {
 		);
 	}
 
-	static toPrisma(answerComment: AnswerComment): Prisma.CommentUncheckedCreateInput {
+	static toPersistence(
+		questionComment: QuestionComment,
+	): Prisma.CommentUncheckedCreateInput {
 		return {
-			id: answerComment.id.toString(),
-			authorId: answerComment.authorId.toString(),
-			answerId: answerComment.answerId.toString(),
-			content: answerComment.content,
-			createdAt: answerComment.createdAt,
-			updatedAt: answerComment.updatedAt,
+			id: questionComment.id.toString(),
+			authorId: questionComment.authorId.toString(),
+			questionId: questionComment.questionId.toString(),
+			content: questionComment.content,
+			createdAt: questionComment.createdAt,
+			updatedAt: questionComment.updatedAt,
 		};
 	}
 }
