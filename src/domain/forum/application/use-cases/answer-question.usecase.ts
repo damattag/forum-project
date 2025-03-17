@@ -1,29 +1,31 @@
 import { type Either, right } from '@/core/either';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
-import type { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
 import { AnswerAttachmentList } from '@/domain/forum/enterprise/entities/answer-attachment-list.entity';
 import { AnswerAttachment } from '@/domain/forum/enterprise/entities/answer-attachment.entity';
 import { Answer } from '@/domain/forum/enterprise/entities/answer.entity';
+import { Injectable } from '@nestjs/common';
 
 interface AnswerQuestionUseCaseRequest {
 	questionId: string;
-	instructorId: string;
+	authorId: string;
 	content: string;
 	attachmentsIds: string[];
 }
 
 type AnswerQuestionUseCaseResponse = Either<void, { answer: Answer }>;
 
+@Injectable()
 export class AnswerQuestionUseCase {
 	constructor(private answersRepository: AnswersRepository) {}
 	async execute({
-		instructorId,
+		authorId,
 		questionId,
 		content,
 		attachmentsIds,
 	}: AnswerQuestionUseCaseRequest): Promise<AnswerQuestionUseCaseResponse> {
 		const answer = Answer.create({
-			authorId: new UniqueEntityId(instructorId),
+			authorId: new UniqueEntityId(authorId),
 			questionId: new UniqueEntityId(questionId),
 			content,
 		});
