@@ -2,17 +2,18 @@ import { type Either, left, right } from '@/core/either';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { NotAllowedException } from '@/core/exceptions/exceptions/not-allowed.exception';
 import { ResourceNotFoundException } from '@/core/exceptions/exceptions/resource-not-found.exception';
-import type { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments.repository';
-import type { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
+import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments.repository';
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
 import { QuestionAttachmentList } from '@/domain/forum/enterprise/entities/question-attachment-list.entity';
 import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-attachment.entity';
 import type { Question } from '@/domain/forum/enterprise/entities/question.entity';
+import { Injectable } from '@nestjs/common';
 
 interface EditQuestionUseCaseRequest {
 	authorId: string;
 	questionId: string;
-	title: string;
-	content: string;
+	title?: string;
+	content?: string;
 	attachmentsIds: string[];
 }
 
@@ -21,6 +22,7 @@ type EditQuestionUseCaseResponse = Either<
 	{ question: Question }
 >;
 
+@Injectable()
 export class EditQuestionUseCase {
 	constructor(
 		private questionsRepository: QuestionsRepository,
@@ -59,8 +61,8 @@ export class EditQuestionUseCase {
 
 		questionAttachmentsList.update(questionAttachments);
 
-		question.title = title;
-		question.content = content;
+		question.title = title ?? question.title;
+		question.content = content ?? question.content;
 		question.attachments = questionAttachmentsList;
 
 		await this.questionsRepository.save(question);
