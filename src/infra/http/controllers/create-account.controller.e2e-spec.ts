@@ -6,7 +6,7 @@ import request from 'supertest';
 
 describe('Create account (E2E)', () => {
 	let app: INestApplication;
-	let prismaService: PrismaService;
+	let prisma: PrismaService;
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
@@ -14,7 +14,7 @@ describe('Create account (E2E)', () => {
 		}).compile();
 
 		app = moduleRef.createNestApplication();
-		prismaService = moduleRef.get(PrismaService);
+		prisma = moduleRef.get(PrismaService);
 
 		await app.init();
 	});
@@ -28,7 +28,7 @@ describe('Create account (E2E)', () => {
 
 		expect(response.status).toBe(201);
 
-		const userOnDatabase = await prismaService.user.findUnique({
+		const userOnDatabase = await prisma.user.findUnique({
 			where: {
 				email: 'john.doe@example.com',
 			},

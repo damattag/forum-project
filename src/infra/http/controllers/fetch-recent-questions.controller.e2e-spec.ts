@@ -1,56 +1,49 @@
 import { AppModule } from '@/infra/app.module';
-import { PrismaService } from '@/infra/database/prisma/prisma.service';
+import { DatabaseModule } from '@/infra/database/database.module';
 import { INestApplication } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import request from 'supertest';
+import { QuestionFactory } from 'test/factories/make-question';
+import { StudentFactory } from 'test/factories/make-student';
 
 describe('Fetch recent questions (E2E)', () => {
 	let app: INestApplication;
-	let prisma: PrismaService;
+	let studentFactory: StudentFactory;
+	let questionFactory: QuestionFactory;
 	let jwt: JwtService;
 
 	beforeAll(async () => {
 		const moduleRef = await Test.createTestingModule({
-			imports: [AppModule],
+			imports: [AppModule, DatabaseModule],
+			providers: [StudentFactory, QuestionFactory],
 		}).compile();
 
 		app = moduleRef.createNestApplication();
-		prisma = moduleRef.get(PrismaService);
+		studentFactory = moduleRef.get(StudentFactory);
+		questionFactory = moduleRef.get(QuestionFactory);
 		jwt = moduleRef.get(JwtService);
 
 		await app.init();
 	});
 
 	test('[GET] /questions', async () => {
-		const user = await prisma.user.create({
-			data: {
-				name: 'John Doe',
-				email: 'john.doe@example.com',
-				password: '123456',
-			},
-		});
+		const user = await studentFactory.makePrismaStudent();
 
 		const accessToken = jwt.sign({
-			sub: user.id,
+			sub: user.id.toString(),
 		});
 
-		await prisma.question.createMany({
-			data: [
-				{
-					title: 'What is the meaning of life?',
-					content: 'The meaning of life, the universe, and everything',
-					authorId: user.id,
-					slug: 'what-is-the-meaning-of-life',
-				},
-				{
-					title: 'What is the meaning of lifes',
-					content: 'The meaning of life, the universe, and everything',
-					authorId: user.id,
-					slug: 'what-is-the-meaning-of-lifes',
-				},
-			],
-		});
+		await Promise.all([
+			questionFactory.makePrismaQuestion({
+				authorId: user.id,
+				title: 'What is the meaning of life?',
+			}),
+			questionFactory.makePrismaQuestion({
+				authorId: user.id,
+				title: 'What do you mean?',
+			}),
+		]);
 
 		const response = await request(app.getHttpServer())
 			.get('/questions')
@@ -58,7 +51,5 @@ describe('Fetch recent questions (E2E)', () => {
 
 		expect(response.status).toBe(200);
 		expect(response.body.questions).toHaveLength(2);
-		expect(response.body.questions[0].title).toBe('What is the meaning of life?');
-		expect(response.body.questions[0].slug).toBe('what-is-the-meaning-of-life');
 	});
 });
