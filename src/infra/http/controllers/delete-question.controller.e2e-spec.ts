@@ -8,7 +8,7 @@ import request from 'supertest';
 import { QuestionFactory } from 'test/factories/make-question';
 import { StudentFactory } from 'test/factories/make-student';
 
-describe('Edit question (E2E)', () => {
+describe('Delete question (E2E)', () => {
 	let app: INestApplication;
 	let prisma: PrismaService;
 	let studentFactory: StudentFactory;
@@ -30,7 +30,7 @@ describe('Edit question (E2E)', () => {
 		await app.init();
 	});
 
-	test('[PATCH] /questions/id/:id', async () => {
+	test('[DELETE] /questions/id/:id', async () => {
 		const user = await studentFactory.makePrismaStudent();
 
 		const accessToken = jwt.sign({
@@ -42,20 +42,17 @@ describe('Edit question (E2E)', () => {
 		});
 
 		const response = await request(app.getHttpServer())
-			.patch(`/questions/id/${question.id.toString()}`)
-			.set('Authorization', `Bearer ${accessToken}`)
-			.send({
-				title: 'What do you mean?',
-			});
+			.delete(`/questions/id/${question.id.toString()}`)
+			.set('Authorization', `Bearer ${accessToken}`);
 
 		expect(response.status).toBe(204);
 
-		const questionOnDatabase = await prisma.question.findFirst({
+		const questionOnDatabase = await prisma.question.findUnique({
 			where: {
-				title: 'What do you mean?',
+				id: question.id.toString(),
 			},
 		});
 
-		expect(questionOnDatabase).toBeTruthy();
+		expect(questionOnDatabase).toBeNull();
 	});
 });
