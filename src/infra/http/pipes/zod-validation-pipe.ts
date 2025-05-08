@@ -9,9 +9,13 @@ export class ZodValidationPipe implements PipeTransform {
 			return this.schema.parse(value);
 		} catch (error) {
 			if (error instanceof ZodError) {
-				throw new BadRequestException(
-					error.issues.map((issue) => issue.message).join(', '),
-				);
+				let message = '';
+
+				for (const issue of error.issues) {
+					message += `${issue.path.join('.')}: ${issue.message}\n`;
+				}
+
+				throw new BadRequestException(message);
 			}
 		}
 
