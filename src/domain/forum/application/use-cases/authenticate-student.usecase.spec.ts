@@ -9,7 +9,7 @@ let fakeHasher: FakeHasher;
 let fakeEncrypter: FakeEncrypter;
 let sut: AuthenticateStudentUseCase;
 
-describe('Authenticate Student (E2E)', () => {
+describe('Authenticate Student', () => {
 	beforeEach(() => {
 		inMemoryStudentsRepository = new InMemoryStudentsRepository();
 		fakeHasher = new FakeHasher();
