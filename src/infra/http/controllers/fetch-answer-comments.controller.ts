@@ -16,7 +16,7 @@ import {
 } from '@nestjs/common';
 import { CommentPresenter } from '../presenters/comment.presenter';
 
-@Controller('/answers/:answer_id/comments')
+@Controller('/answers/:answerId/comments')
 export class FetchAnswerCommentsController {
 	constructor(private readonly useCase: FetchAnswerCommentsUseCase) {}
 
@@ -28,7 +28,7 @@ export class FetchAnswerCommentsController {
 		@Query(fetchAnswerCommentsQueryValidationSchema)
 		query: FetchAnswerCommentsQuerySchema,
 	) {
-		const { answer_id: answerId } = params;
+		const { answerId } = params;
 		const { page = 1, limit = 10 } = query;
 
 		const result = await this.useCase.execute({
