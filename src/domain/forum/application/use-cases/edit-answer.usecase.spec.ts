@@ -17,8 +17,8 @@ describe('Edit Answer', () => {
 			inMemoryAnswerAttachmentsRepository,
 		);
 		sut = new EditAnswerUseCase(
-			inMemoryAnswersRepository,
 			inMemoryAnswerAttachmentsRepository,
+			inMemoryAnswersRepository,
 		);
 	});
 

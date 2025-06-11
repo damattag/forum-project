@@ -1,9 +1,10 @@
 import { type Either, left, right } from '@/core/either';
 import { NotAllowedException } from '@/core/exceptions/exceptions/not-allowed.exception';
 import { ResourceNotFoundException } from '@/core/exceptions/exceptions/resource-not-found.exception';
-import type { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
-import type { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
-import type { Question } from '@/domain/forum/enterprise/entities/question.entity';
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
+import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
+import { Question } from '@/domain/forum/enterprise/entities/question.entity';
+import { Injectable } from '@nestjs/common';
 
 interface ChooseQuestionBestAnswerUseCaseRequest {
 	authorId: string;
@@ -15,6 +16,7 @@ type ChooseQuestionBestAnswerUseCaseResponse = Either<
 	{ question: Question }
 >;
 
+@Injectable()
 export class ChooseQuestionBestAnswerUseCase {
 	constructor(
 		private answersRepository: AnswersRepository,
@@ -28,7 +30,7 @@ export class ChooseQuestionBestAnswerUseCase {
 		const answer = await this.answersRepository.findById(answerId);
 
 		if (!answer) {
-			throw new Error('Answer not found');
+			return left(new ResourceNotFoundException());
 		}
 
 		const question = await this.questionsRepository.findById(
