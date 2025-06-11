@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 
 export const fetchAnswerCommentsParamsSchema = z.object({
-	answerId: z.string().uuid(),
+	answer_id: z.string().uuid(),
 });
 
 export const fetchAnswerCommentsQuerySchema = z.object({

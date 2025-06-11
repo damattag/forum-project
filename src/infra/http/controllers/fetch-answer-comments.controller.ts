@@ -14,9 +14,9 @@ import {
 	Param,
 	Query,
 } from '@nestjs/common';
-import { AnswerCommentPresenter } from '../presenters/answer-comment.presenter';
+import { CommentPresenter } from '../presenters/comment.presenter';
 
-@Controller('/answers/:answerId/comments')
+@Controller('/answers/:answer_id/comments')
 export class FetchAnswerCommentsController {
 	constructor(private readonly useCase: FetchAnswerCommentsUseCase) {}
 
@@ -28,7 +28,7 @@ export class FetchAnswerCommentsController {
 		@Query(fetchAnswerCommentsQueryValidationSchema)
 		query: FetchAnswerCommentsQuerySchema,
 	) {
-		const { answerId } = params;
+		const { answer_id: answerId } = params;
 		const { page = 1, limit = 10 } = query;
 
 		const result = await this.useCase.execute({
@@ -44,7 +44,7 @@ export class FetchAnswerCommentsController {
 		const { answerComments } = result.value;
 
 		return {
-			answerComments: answerComments.map(AnswerCommentPresenter.toHttp),
+			comments: answerComments.map(CommentPresenter.toHttp),
 		};
 	}
 }

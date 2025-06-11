@@ -73,7 +73,7 @@ describe('Fetch answer comments (E2E)', () => {
 
 		expect(response.status).toBe(200);
 		expect(response.body).toEqual({
-			answerComments: expect.arrayContaining([
+			comments: expect.arrayContaining([
 				expect.objectContaining({
 					content: 'Comment 1',
 				}),
@@ -133,7 +133,7 @@ describe('Fetch answer comments (E2E)', () => {
 
 		expect(response.status).toBe(200);
 		expect(response.body).toEqual({
-			answerComments: [],
+			comments: [],
 		});
 	});
 });
