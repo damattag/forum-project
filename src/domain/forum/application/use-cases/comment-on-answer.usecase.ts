@@ -1,9 +1,10 @@
 import { type Either, left, right } from '@/core/either';
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { ResourceNotFoundException } from '@/core/exceptions/exceptions/resource-not-found.exception';
-import type { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments.repository';
-import type { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
+import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments.repository';
+import { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment.entity';
+import { Injectable } from '@nestjs/common';
 
 interface CommentOnAnswerUseCaseRequest {
 	authorId: string;
@@ -16,6 +17,7 @@ type CommentOnAnswerUseCaseResponse = Either<
 	{ answerComment: AnswerComment }
 >;
 
+@Injectable()
 export class CommentOnAnswerUseCase {
 	constructor(
 		private answersRepository: AnswersRepository,

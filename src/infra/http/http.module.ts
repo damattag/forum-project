@@ -1,6 +1,7 @@
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question.usecase';
 import { AuthenticateStudentUseCase } from '@/domain/forum/application/use-cases/authenticate-student.usecase';
 import { ChooseQuestionBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer.usecase';
+import { CommentOnAnswerUseCase } from '@/domain/forum/application/use-cases/comment-on-answer.usecase';
 import { CommentOnQuestionUseCase } from '@/domain/forum/application/use-cases/comment-on-question.usecase';
 import { CreateQuestionUseCase } from '@/domain/forum/application/use-cases/create-question.usecase';
 import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer.usecase';
@@ -19,6 +20,7 @@ import { Module } from '@nestjs/common';
 import { AnswerQuestionController } from './controllers/answer-question.controller';
 import { AuthenticateController } from './controllers/authenticate.controller';
 import { ChooseQuestionBestAnswerController } from './controllers/choose-question-best-answer.controller';
+import { CommentOnAnswerController } from './controllers/comment-on-answer.controller';
 import { CommentOnQuestionController } from './controllers/comment-on-question.controller';
 import { CreateAccountController } from './controllers/create-account.controller';
 import { CreateQuestionController } from './controllers/create-question.controller';
@@ -50,6 +52,7 @@ import { GetQuestionBySlugController } from './controllers/get-question-by-slug.
 		ChooseQuestionBestAnswerController,
 		CommentOnQuestionController,
 		DeleteQuestionCommentController,
+		CommentOnAnswerController,
 	],
 	providers: [
 		CreateQuestionUseCase,
@@ -67,6 +70,7 @@ import { GetQuestionBySlugController } from './controllers/get-question-by-slug.
 		ChooseQuestionBestAnswerUseCase,
 		CommentOnQuestionUseCase,
 		DeleteQuestionCommentUseCase,
+		CommentOnAnswerUseCase,
 	],
 })
 export class HttpModule {}
