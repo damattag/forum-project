@@ -7,7 +7,7 @@ let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
 let sut: AnswerQuestionUseCase;
 
-describe('Answer Question', () => {
+describe('Answer Question (E2E)', () => {
 	beforeEach(() => {
 		inMemoryAnswerAttachmentsRepository = new InMemoryAnswerAttachmentsRepository();
 		inMemoryAnswersRepository = new InMemoryAnswersRepository(
