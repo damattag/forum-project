@@ -1,6 +1,7 @@
 import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments.repository';
 import { AnswerCommentsRepository } from '@/domain/forum/application/repositories/answer-comments.repository';
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers.repository';
+import { AttachmentsRepository } from '@/domain/forum/application/repositories/attachments.repository';
 import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments.repository';
 import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments.repository';
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
@@ -10,6 +11,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { PrismaAnswerAttachmentsRepository } from './prisma/repositories/answer-attachments.repository';
 import { PrismaAnswerCommentsRepository } from './prisma/repositories/answer-comments.repository';
 import { PrismaAnswersRepository } from './prisma/repositories/answers.repository';
+import { PrismaAttachmentsRepository } from './prisma/repositories/attachments.repository';
 import { PrismaQuestionAttachmentsRepository } from './prisma/repositories/question-attachments.repository';
 import { PrismaQuestionCommentsRepository } from './prisma/repositories/question-comments.repository';
 import { PrismaQuestionsRepository } from './prisma/repositories/questions.repository';
@@ -46,6 +48,10 @@ import { PrismaStudentsRepository } from './prisma/repositories/students.reposit
 			provide: StudentsRepository,
 			useClass: PrismaStudentsRepository,
 		},
+		{
+			provide: AttachmentsRepository,
+			useClass: PrismaAttachmentsRepository,
+		},
 	],
 	exports: [
 		PrismaService,
@@ -56,6 +62,7 @@ import { PrismaStudentsRepository } from './prisma/repositories/students.reposit
 		QuestionCommentsRepository,
 		AnswerCommentsRepository,
 		StudentsRepository,
+		AttachmentsRepository,
 	],
 })
 export class DatabaseModule {}
