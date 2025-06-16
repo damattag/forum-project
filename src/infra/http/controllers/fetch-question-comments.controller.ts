@@ -1,5 +1,4 @@
 import { FetchQuestionCommentsUseCase } from '@/domain/forum/application/use-cases/fetch-question-comments.usecase';
-import { CommentPresenter } from '@/infra/http/presenters/comment.presenter';
 import {
 	BadRequestException,
 	Controller,
@@ -15,6 +14,7 @@ import {
 	fetchQuestionCommentsParamsValidationSchema,
 	fetchQuestionCommentsQueryValidationSchema,
 } from '../dtos/fetch-question-comments.dto';
+import { CommentWithAuthorPresenter } from '../presenters/comment-with-author.presenter';
 
 @Controller('/questions/:questionId/comments')
 export class FetchQuestionCommentsController {
@@ -41,8 +41,8 @@ export class FetchQuestionCommentsController {
 			throw new BadRequestException();
 		}
 
-		const { questionComments } = result.value;
+		const { comments } = result.value;
 
-		return { comments: questionComments.map(CommentPresenter.toHttp) };
+		return { comments: comments.map(CommentWithAuthorPresenter.toHttp) };
 	}
 }

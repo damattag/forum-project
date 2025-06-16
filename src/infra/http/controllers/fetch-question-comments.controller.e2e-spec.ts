@@ -31,7 +31,9 @@ describe('Fetch question comments (E2E)', () => {
 	});
 
 	test('[GET] /questions/:questionId/comments', async () => {
-		const user = await studentFactory.makePrismaStudent();
+		const user = await studentFactory.makePrismaStudent({
+			name: 'John Doe',
+		});
 
 		const accessToken = jwt.sign({
 			sub: user.id.toString(),
@@ -63,16 +65,20 @@ describe('Fetch question comments (E2E)', () => {
 			expect.arrayContaining([
 				expect.objectContaining({
 					content: 'Question comment 1',
+					author: 'John Doe',
 				}),
 				expect.objectContaining({
 					content: 'Question comment 2',
+					author: 'John Doe',
 				}),
 			]),
 		);
 	});
 
 	test('[GET] /questions/:questionId/comments - should validate pagination params', async () => {
-		const user = await studentFactory.makePrismaStudent();
+		const user = await studentFactory.makePrismaStudent({
+			name: 'John Doe',
+		});
 		const question = await questionFactory.makePrismaQuestion({
 			authorId: user.id,
 		});
@@ -93,7 +99,9 @@ describe('Fetch question comments (E2E)', () => {
 	});
 
 	test('[GET] /questions/:questionId/comments - should return empty array when no comments', async () => {
-		const user = await studentFactory.makePrismaStudent();
+		const user = await studentFactory.makePrismaStudent({
+			name: 'John Doe',
+		});
 
 		const accessToken = jwt.sign({
 			sub: user.id.toString(),
@@ -108,8 +116,6 @@ describe('Fetch question comments (E2E)', () => {
 			.set('Authorization', `Bearer ${accessToken}`);
 
 		expect(response.status).toBe(200);
-		expect(response.body).toEqual({
-			comments: [],
-		});
+		expect(response.body.comments).toEqual([]);
 	});
 });

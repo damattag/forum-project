@@ -37,7 +37,9 @@ describe('Fetch answer comments (E2E)', () => {
 	});
 
 	test('[GET] /answers/:answerId/comments', async () => {
-		const user = await studentFactory.makePrismaStudent();
+		const user = await studentFactory.makePrismaStudent({
+			name: 'John Doe',
+		});
 		const question = await questionFactory.makePrismaQuestion({
 			authorId: user.id,
 		});
@@ -76,16 +78,20 @@ describe('Fetch answer comments (E2E)', () => {
 			comments: expect.arrayContaining([
 				expect.objectContaining({
 					content: 'Comment 1',
+					author: 'John Doe',
 				}),
 				expect.objectContaining({
 					content: 'Comment 2',
+					author: 'John Doe',
 				}),
 			]),
 		});
 	});
 
 	test('[GET] /answers/:answerId/comments - should validate pagination params', async () => {
-		const user = await studentFactory.makePrismaStudent();
+		const user = await studentFactory.makePrismaStudent({
+			name: 'John Doe',
+		});
 		const question = await questionFactory.makePrismaQuestion({
 			authorId: user.id,
 		});
@@ -110,7 +116,9 @@ describe('Fetch answer comments (E2E)', () => {
 	});
 
 	test('[GET] /answers/:answerId/comments - should return empty array when no comments', async () => {
-		const user = await studentFactory.makePrismaStudent();
+		const user = await studentFactory.makePrismaStudent({
+			name: 'John Doe',
+		});
 		const question = await questionFactory.makePrismaQuestion({
 			authorId: user.id,
 		});
@@ -132,8 +140,6 @@ describe('Fetch answer comments (E2E)', () => {
 			});
 
 		expect(response.status).toBe(200);
-		expect(response.body).toEqual({
-			comments: [],
-		});
+		expect(response.body.comments).toEqual([]);
 	});
 });

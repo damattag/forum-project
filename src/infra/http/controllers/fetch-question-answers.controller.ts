@@ -29,7 +29,7 @@ export class FetchQuestionAnswersController {
 		query: FetchQuestionAnswersQuerySchema,
 	) {
 		const { questionId } = params;
-		const { page = 1, limit = 10 } = query;
+		const { page, limit } = query;
 
 		const result = await this.useCase.execute({
 			questionId,

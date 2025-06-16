@@ -5,6 +5,7 @@ import {
 	fetchAnswerCommentsParamsValidationSchema,
 	fetchAnswerCommentsQueryValidationSchema,
 } from '@/infra/http/dtos/fetch-answer-comments.dto';
+import { CommentWithAuthorPresenter } from '@/infra/http/presenters/comment-with-author.presenter';
 import {
 	BadRequestException,
 	Controller,
@@ -14,7 +15,6 @@ import {
 	Param,
 	Query,
 } from '@nestjs/common';
-import { CommentPresenter } from '../presenters/comment.presenter';
 
 @Controller('/answers/:answerId/comments')
 export class FetchAnswerCommentsController {
@@ -41,10 +41,10 @@ export class FetchAnswerCommentsController {
 			throw new BadRequestException();
 		}
 
-		const { answerComments } = result.value;
+		const { comments } = result.value;
 
 		return {
-			comments: answerComments.map(CommentPresenter.toHttp),
+			comments: comments.map(CommentWithAuthorPresenter.toHttp),
 		};
 	}
 }
