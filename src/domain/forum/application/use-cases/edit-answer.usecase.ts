@@ -13,7 +13,7 @@ interface EditAnswerUseCaseRequest {
 	authorId: string;
 	answerId: string;
 	content?: string;
-	attachmentsIds?: string[];
+	attachmentIds?: string[];
 }
 
 type EditAnswerUseCaseResponse = Either<
@@ -31,7 +31,7 @@ export class EditAnswerUseCase {
 		content,
 		authorId,
 		answerId,
-		attachmentsIds,
+		attachmentIds,
 	}: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
 		const answer = await this.answersRepository.findById(answerId);
 
@@ -48,7 +48,7 @@ export class EditAnswerUseCase {
 
 		const answerAttachmentsList = new AnswerAttachmentList(currentAnswerAttachments);
 
-		const answerAttachments = attachmentsIds?.map((attachmentId) => {
+		const answerAttachments = attachmentIds?.map((attachmentId) => {
 			return AnswerAttachment.create({
 				attachmentId: new UniqueEntityId(attachmentId),
 				answerId: answer.id,

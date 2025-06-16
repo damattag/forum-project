@@ -21,15 +21,28 @@ describe('Answer Question (E2E)', () => {
 			authorId: '1',
 			questionId: '1',
 			content: 'This is the answer content',
-			attachmentsIds: ['1', '2'],
+			attachmentIds: ['1', '2'],
 		});
 
 		expect(result.isRight()).toBe(true);
 		expect(inMemoryAnswersRepository.items[0]).toEqual(result.value?.answer);
-		expect(inMemoryAnswersRepository.items[0].attachments.currentItems).toHaveLength(2);
-		expect(inMemoryAnswersRepository.items[0].attachments.currentItems).toEqual([
-			expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-			expect.objectContaining({ attachmentId: new UniqueEntityId('2') }),
-		]);
+	});
+
+	it('should persist attachments when a answer is created', async () => {
+		const result = await sut.execute({
+			authorId: '1',
+			questionId: '1',
+			content: 'This is the create content',
+			attachmentIds: ['1', '2'],
+		});
+
+		expect(result.isRight()).toBe(true);
+		expect(inMemoryAnswerAttachmentsRepository.items).toHaveLength(2);
+		expect(inMemoryAnswerAttachmentsRepository.items).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
+				expect.objectContaining({ attachmentId: new UniqueEntityId('2') }),
+			]),
+		);
 	});
 });

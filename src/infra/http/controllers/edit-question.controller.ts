@@ -28,7 +28,7 @@ export class EditQuestionController {
 		@Body(editQuestionBodyValidationSchema) body: EditQuestionBodySchema,
 		@Param(editQuestionParamsValidationSchema) params: EditQuestionParamsSchema,
 	) {
-		const { title, content } = body;
+		const { title, content, attachments } = body;
 		const { id: questionId } = params;
 
 		const result = await this.useCase.execute({
@@ -36,7 +36,7 @@ export class EditQuestionController {
 			content,
 			questionId,
 			authorId: user.sub,
-			attachmentsIds: [],
+			attachmentsIds: attachments,
 		});
 
 		if (result.isLeft()) {

@@ -10,6 +10,16 @@ export class InMemoryAnswerAttachmentsRepository implements AnswerAttachmentsRep
 		);
 	}
 
+	async createMany(attachments: AnswerAttachment[]): Promise<void> {
+		this.items.push(...attachments);
+	}
+
+	async deleteMany(attachments: AnswerAttachment[]): Promise<void> {
+		this.items = this.items.filter(
+			(item) => !attachments.some((attachment) => attachment.equals(item)),
+		);
+	}
+
 	async deleteListByAnswerId(answerId: string): Promise<void> {
 		this.items = this.items.filter(
 			(answerAttachment) => answerAttachment.answerId.toString() !== answerId,

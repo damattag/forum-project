@@ -4,7 +4,7 @@ import { ZodValidationPipe } from '../pipes/zod-validation-pipe';
 export const editAnswerBodySchema = z
 	.object({
 		content: z.string(),
-		attachmentsIds: z.array(z.string()),
+		attachments: z.array(z.string()),
 	})
 	.partial();
 export const editAnswerParamsSchema = z.object({

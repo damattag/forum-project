@@ -45,7 +45,7 @@ describe('Edit Answer', () => {
 			answerId: newAnswer.id.toString(),
 			authorId: 'author_1',
 			content: 'New Content',
-			attachmentsIds: ['1', '3'],
+			attachmentIds: ['1', '3'],
 		});
 
 		expect(inMemoryAnswersRepository.items[0]).toMatchObject({
@@ -70,10 +70,46 @@ describe('Edit Answer', () => {
 			answerId: newAnswer.id.toString(),
 			authorId: 'another_author',
 			content: 'New Content',
-			attachmentsIds: [],
+			attachmentIds: [],
 		});
 
 		expect(result.isLeft()).toBe(true);
 		expect(result.value).toBeInstanceOf(NotAllowedException);
+	});
+
+	it('should persist attachments when a answer is edited', async () => {
+		const newAnswer = makeAnswer(
+			{ authorId: new UniqueEntityId('author_1') },
+			new UniqueEntityId('answer_1'),
+		);
+
+		inMemoryAnswersRepository.create(newAnswer);
+
+		inMemoryAnswerAttachmentsRepository.items.push(
+			makeAnswerAttachment({
+				attachmentId: new UniqueEntityId('1'),
+				answerId: newAnswer.id,
+			}),
+			makeAnswerAttachment({
+				attachmentId: new UniqueEntityId('2'),
+				answerId: newAnswer.id,
+			}),
+		);
+
+		const result = await sut.execute({
+			answerId: newAnswer.id.toString(),
+			authorId: 'author_1',
+			content: 'New Content',
+			attachmentIds: ['1', '3'],
+		});
+
+		expect(result.isRight()).toBe(true);
+		expect(inMemoryAnswerAttachmentsRepository.items).toHaveLength(2);
+		expect(inMemoryAnswerAttachmentsRepository.items).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
+				expect.objectContaining({ attachmentId: new UniqueEntityId('3') }),
+			]),
+		);
 	});
 });

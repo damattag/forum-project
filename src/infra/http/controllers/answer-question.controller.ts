@@ -28,12 +28,12 @@ export class AnswerQuestionController {
 		@Body(answerQuestionBodyValidationSchema) body: AnswerQuestionBodySchema,
 		@Param(answerQuestionParamsValidationSchema) params: AnswerQuestionParamsSchema,
 	) {
-		const { content } = body;
+		const { content, attachments } = body;
 		const { question_id: questionId } = params;
 
 		const result = await this.useCase.execute({
 			questionId,
-			attachmentsIds: [],
+			attachmentIds: attachments,
 			authorId: user.sub,
 			content,
 		});

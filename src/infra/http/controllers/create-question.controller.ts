@@ -24,13 +24,13 @@ export class CreateQuestionController {
 		@CurrentUser() user: UserPayload,
 		@Body(createQuestionBodyValidationSchema) body: CreateQuestionBodySchema,
 	) {
-		const { title, content } = body;
+		const { title, content, attachments } = body;
 
 		const result = await this.useCase.execute({
 			title,
 			content,
 			authorId: user.sub,
-			attachmentsIds: [],
+			attachmentIds: attachments,
 		});
 
 		if (result.isLeft()) {

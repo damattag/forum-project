@@ -10,7 +10,7 @@ interface CreateQuestionUseCaseRequest {
 	authorId: string;
 	title: string;
 	content: string;
-	attachmentsIds: string[];
+	attachmentIds: string[];
 }
 
 type CreateQuestionUseCaseResponse = Either<void, { question: Question }>;
@@ -23,7 +23,7 @@ export class CreateQuestionUseCase {
 		authorId,
 		content,
 		title,
-		attachmentsIds,
+		attachmentIds,
 	}: CreateQuestionUseCaseRequest): Promise<CreateQuestionUseCaseResponse> {
 		const question = Question.create({
 			authorId: new UniqueEntityId(authorId),
@@ -31,7 +31,7 @@ export class CreateQuestionUseCase {
 			title,
 		});
 
-		const questionAttachments = attachmentsIds?.map((attachmentId) =>
+		const questionAttachments = attachmentIds?.map((attachmentId) =>
 			QuestionAttachment.create({
 				attachmentId: new UniqueEntityId(attachmentId),
 				questionId: question.id,

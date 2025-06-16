@@ -28,14 +28,14 @@ export class EditAnswerController {
 		@Body(editAnswerBodyValidationSchema) body: EditAnswerBodySchema,
 		@Param(editAnswerParamsValidationSchema) params: EditAnswerParamsSchema,
 	) {
-		const { content, attachmentsIds } = body;
+		const { content, attachments } = body;
 		const { id: answerId } = params;
 
 		const result = await this.useCase.execute({
 			content,
 			answerId,
 			authorId: user.sub,
-			attachmentsIds,
+			attachmentIds: attachments,
 		});
 
 		if (result.isLeft()) {

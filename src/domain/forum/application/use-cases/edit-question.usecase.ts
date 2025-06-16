@@ -14,7 +14,7 @@ interface EditQuestionUseCaseRequest {
 	questionId: string;
 	title?: string;
 	content?: string;
-	attachmentsIds: string[];
+	attachmentsIds?: string[];
 }
 
 type EditQuestionUseCaseResponse = Either<
@@ -59,7 +59,9 @@ export class EditQuestionUseCase {
 			});
 		});
 
-		questionAttachmentsList.update(questionAttachments);
+		if (questionAttachments) {
+			questionAttachmentsList.update(questionAttachments);
+		}
 
 		question.title = title ?? question.title;
 		question.content = content ?? question.content;

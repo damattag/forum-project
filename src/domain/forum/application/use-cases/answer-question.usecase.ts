@@ -10,7 +10,7 @@ interface AnswerQuestionUseCaseRequest {
 	questionId: string;
 	authorId: string;
 	content: string;
-	attachmentsIds: string[];
+	attachmentIds: string[];
 }
 
 type AnswerQuestionUseCaseResponse = Either<void, { answer: Answer }>;
@@ -22,7 +22,7 @@ export class AnswerQuestionUseCase {
 		authorId,
 		questionId,
 		content,
-		attachmentsIds,
+		attachmentIds,
 	}: AnswerQuestionUseCaseRequest): Promise<AnswerQuestionUseCaseResponse> {
 		const answer = Answer.create({
 			authorId: new UniqueEntityId(authorId),
@@ -30,7 +30,7 @@ export class AnswerQuestionUseCase {
 			content,
 		});
 
-		const answerAttachments = attachmentsIds?.map((attachmentId) =>
+		const answerAttachments = attachmentIds?.map((attachmentId) =>
 			AnswerAttachment.create({
 				attachmentId: new UniqueEntityId(attachmentId),
 				answerId: answer.id,

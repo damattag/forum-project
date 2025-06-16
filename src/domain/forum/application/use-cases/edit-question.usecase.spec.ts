@@ -53,11 +53,6 @@ describe('Edit Question', () => {
 			title: 'New Title',
 			content: 'New Content',
 		});
-		expect(inMemoryQuestionsRepository.items[0].attachments.currentItems).toHaveLength(2);
-		expect(inMemoryQuestionsRepository.items[0].attachments.currentItems).toEqual([
-			expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
-			expect.objectContaining({ attachmentId: new UniqueEntityId('3') }),
-		]);
 	});
 
 	it('should not be able to edit a question from another author', async () => {
@@ -78,5 +73,42 @@ describe('Edit Question', () => {
 
 		expect(result.isLeft()).toBe(true);
 		expect(result.value).toBeInstanceOf(NotAllowedException);
+	});
+
+	it('should persist attachments when a question is edited', async () => {
+		const newQuestion = makeQuestion(
+			{ authorId: new UniqueEntityId('author_1') },
+			new UniqueEntityId('question_1'),
+		);
+
+		inMemoryQuestionsRepository.create(newQuestion);
+
+		inMemoryQuestionAttachmentsRepository.items.push(
+			makeQuestionAttachment({
+				attachmentId: new UniqueEntityId('1'),
+				questionId: newQuestion.id,
+			}),
+			makeQuestionAttachment({
+				attachmentId: new UniqueEntityId('2'),
+				questionId: newQuestion.id,
+			}),
+		);
+
+		const result = await sut.execute({
+			questionId: newQuestion.id.toString(),
+			authorId: 'author_1',
+			title: 'New Title',
+			content: 'New Content',
+			attachmentsIds: ['1', '3'],
+		});
+
+		expect(result.isRight()).toBe(true);
+		expect(inMemoryQuestionAttachmentsRepository.items).toHaveLength(2);
+		expect(inMemoryQuestionAttachmentsRepository.items).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({ attachmentId: new UniqueEntityId('1') }),
+				expect.objectContaining({ attachmentId: new UniqueEntityId('3') }),
+			]),
+		);
 	});
 });
