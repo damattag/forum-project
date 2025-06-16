@@ -1,5 +1,4 @@
 import { GetQuestionBySlugUseCase } from '@/domain/forum/application/use-cases/get-question-by-slug.usecase';
-import { QuestionPresenter } from '@/infra/http/presenters/question.presenter';
 import {
 	BadRequestException,
 	Controller,
@@ -12,6 +11,7 @@ import {
 	GetQuestionBySlugParamsSchema,
 	getQuestionBySlugParamsValidationSchema,
 } from '../dtos/get-question-by-slug.dto';
+import { QuestionDetailsPresenter } from '../presenters/question-details.presenter';
 
 @Controller('/questions/slug/:slug')
 export class GetQuestionBySlugController {
@@ -31,6 +31,6 @@ export class GetQuestionBySlugController {
 			throw new BadRequestException();
 		}
 
-		return { question: QuestionPresenter.toHttp(result.value.question) };
+		return { question: QuestionDetailsPresenter.toHttp(result.value.question) };
 	}
 }

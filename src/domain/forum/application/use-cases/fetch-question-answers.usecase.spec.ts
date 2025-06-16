@@ -1,8 +1,8 @@
 import { UniqueEntityId } from '@/core/entities/unique-entity-id';
 import { makeAnswer } from 'test/factories/make-answer';
+import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments.repository';
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers.repository';
 import { FetchQuestionAnswersUseCase } from './fetch-question-answers.usecase';
-import { InMemoryAnswerAttachmentsRepository } from 'test/repositories/in-memory-answer-attachments.repository';
 
 let inMemoryAnswersRepository: InMemoryAnswersRepository;
 let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository;
@@ -31,6 +31,7 @@ describe('Fetch question answers', () => {
 		const result = await sut.execute({
 			questionId: '1',
 			page: 1,
+			limit: 20,
 		});
 
 		expect(result.isRight()).toBeTruthy();
@@ -47,6 +48,7 @@ describe('Fetch question answers', () => {
 		const result = await sut.execute({
 			questionId: '1',
 			page: 2,
+			limit: 20,
 		});
 
 		expect(result.isRight()).toBeTruthy();

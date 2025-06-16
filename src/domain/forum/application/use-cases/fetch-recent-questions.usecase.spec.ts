@@ -1,17 +1,26 @@
 import { makeQuestion } from 'test/factories/make-question';
-import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions.repository';
-import { FetchRecentQuestionsUseCase } from './fetch-recent-questions.usecase';
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments.repository';
 import { InMemoryQuestionAttachmentsRepository } from 'test/repositories/in-memory-question-attachments.repository';
+import { InMemoryQuestionsRepository } from 'test/repositories/in-memory-questions.repository';
+import { InMemoryStudentsRepository } from 'test/repositories/in-memory-students.repository';
+import { FetchRecentQuestionsUseCase } from './fetch-recent-questions.usecase';
 
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository;
 let inMemoryQuestionAttachmentsRepository: InMemoryQuestionAttachmentsRepository;
+let inMemoryStudentsRepository: InMemoryStudentsRepository;
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository;
 let sut: FetchRecentQuestionsUseCase;
 
 describe('Fetch recent questions', () => {
 	beforeEach(() => {
 		inMemoryQuestionAttachmentsRepository = new InMemoryQuestionAttachmentsRepository();
+		inMemoryStudentsRepository = new InMemoryStudentsRepository();
+		inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository();
+
 		inMemoryQuestionsRepository = new InMemoryQuestionsRepository(
 			inMemoryQuestionAttachmentsRepository,
+			inMemoryAttachmentsRepository,
+			inMemoryStudentsRepository,
 		);
 		sut = new FetchRecentQuestionsUseCase(inMemoryQuestionsRepository);
 	});
@@ -29,6 +38,7 @@ describe('Fetch recent questions', () => {
 
 		const result = await sut.execute({
 			page: 1,
+			limit: 20,
 		});
 
 		expect(result.value?.questions).toEqual([
@@ -45,6 +55,7 @@ describe('Fetch recent questions', () => {
 
 		const result = await sut.execute({
 			page: 2,
+			limit: 20,
 		});
 
 		expect(result.value?.questions).toHaveLength(5);
