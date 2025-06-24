@@ -7,6 +7,7 @@ import { QuestionCommentsRepository } from '@/domain/forum/application/repositor
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
 import { StudentsRepository } from '@/domain/forum/application/repositories/students.repository';
 import { NotificationsRepository } from '@/domain/notification/application/repositories/notification.repository';
+import { CacheModule } from '@/infra/cache/cache.module';
 import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaAnswerAttachmentsRepository } from './prisma/repositories/answer-attachments.repository';
@@ -20,6 +21,7 @@ import { PrismaQuestionsRepository } from './prisma/repositories/questions.repos
 import { PrismaStudentsRepository } from './prisma/repositories/students.repository';
 
 @Module({
+	imports: [CacheModule],
 	providers: [
 		PrismaService,
 		{
