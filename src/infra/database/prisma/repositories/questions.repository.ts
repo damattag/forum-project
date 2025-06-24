@@ -69,7 +69,7 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 
 	async save(question: Question): Promise<void> {
 		const data = PrismaQuestionMapper.toPersistence(question);
-		const cacheKey = `questions:${question.slug}:details`;
+		const cacheKey = `questions:${question.slug.value}:details`;
 
 		await Promise.all([
 			this.prisma.question.update({

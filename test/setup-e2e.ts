@@ -1,10 +1,10 @@
 import { DomainEvents } from '@/core/events/domains-events';
+import { envSchema } from '@/infra/env/handler';
 import { PrismaClient } from '@prisma/client';
 import { config } from 'dotenv';
+import Redis from 'ioredis';
 import { execSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-
-const prisma = new PrismaClient();
 
 config({
 	path: '.env',
@@ -15,12 +15,22 @@ config({
 	override: true,
 });
 
+const env = envSchema.parse(process.env);
+
+const prisma = new PrismaClient();
+
+const redis = new Redis({
+	host: env.REDIS_HOST,
+	port: env.REDIS_PORT,
+	db: env.REDIS_DB,
+});
+
 function generateUniqueDatabaseURL(schemaId: string) {
-	if (!process.env.DATABASE_URL) {
+	if (!env.DATABASE_URL) {
 		throw new Error('DATABASE_URL is not set');
 	}
 
-	const url = new URL(process.env.DATABASE_URL);
+	const url = new URL(env.DATABASE_URL);
 
 	url.searchParams.set('schema', schemaId);
 
@@ -34,7 +44,9 @@ beforeAll(async () => {
 
 	DomainEvents.shouldRun = false;
 
-	process.env.DATABASE_URL = databaseURL;
+	env.DATABASE_URL = databaseURL;
+
+	await redis.flushdb();
 
 	execSync('npx prisma migrate deploy');
 });

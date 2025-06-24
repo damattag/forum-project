@@ -10,7 +10,7 @@ export class RedisRepository implements CacheRepository {
 		await this.redisService.set(key, value, 'EX', 60 * 15);
 	}
 
-	get(key: string): Promise<string | null> {
+	async get(key: string): Promise<string | null> {
 		return this.redisService.get(key);
 	}
 

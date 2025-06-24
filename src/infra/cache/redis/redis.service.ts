@@ -5,6 +5,9 @@ import { Redis } from 'ioredis';
 @Injectable()
 export class RedisService extends Redis implements OnModuleDestroy {
 	constructor(envService: EnvService) {
+		console.log(
+			`Connecting to Redis at ${envService.get('REDIS_HOST')}:${envService.get('REDIS_PORT')}/${envService.get('REDIS_DB')}`,
+		);
 		super({
 			host: envService.get('REDIS_HOST'),
 			port: envService.get('REDIS_PORT'),

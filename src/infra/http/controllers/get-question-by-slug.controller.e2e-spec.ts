@@ -10,7 +10,7 @@ import { QuestionFactory } from 'test/factories/make-question';
 import { QuestionAttachmentFactory } from 'test/factories/make-question-attachment';
 import { StudentFactory } from 'test/factories/make-student';
 
-describe('Fetch recent questions (E2E)', () => {
+describe('Get question by slug (E2E)', () => {
 	let app: INestApplication;
 	let studentFactory: StudentFactory;
 	let questionFactory: QuestionFactory;

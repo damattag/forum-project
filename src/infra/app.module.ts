@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
+import { CacheModule } from './cache/cache.module';
 import { DatabaseModule } from './database/database.module';
 import { EnvModule } from './env/env.module';
 import { envSchema } from './env/handler';
@@ -18,6 +19,7 @@ import { HttpModule } from './http/http.module';
 		EnvModule,
 		DatabaseModule,
 		EventsModule,
+		CacheModule,
 	],
 })
 export class AppModule {}
