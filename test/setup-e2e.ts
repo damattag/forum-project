@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domains-events';
 import { PrismaClient } from '@prisma/client';
 import { config } from 'dotenv';
 import { execSync } from 'node:child_process';
@@ -30,6 +31,8 @@ const schemaId = randomUUID();
 
 beforeAll(async () => {
 	const databaseURL = generateUniqueDatabaseURL(schemaId);
+
+	DomainEvents.shouldRun = false;
 
 	process.env.DATABASE_URL = databaseURL;
 

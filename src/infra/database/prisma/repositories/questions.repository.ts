@@ -1,3 +1,4 @@
+import { DomainEvents } from '@/core/events/domains-events';
 import { PaginationParams } from '@/core/repositories/pagination-params';
 import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachments.repository';
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
@@ -38,6 +39,8 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 		});
 
 		await this.questionAttachmentsRepository.createMany(question.attachments.getItems());
+
+		DomainEvents.dispatchEventsForAggregate(question.id);
 	}
 
 	async findBySlug(slug: string): Promise<Question | null> {
@@ -77,6 +80,8 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
 			),
 			this.questionAttachmentsRepository.createMany(question.attachments.getNewItems()),
 		]);
+
+		DomainEvents.dispatchEventsForAggregate(question.id);
 	}
 
 	async listRecent(pagination: PaginationParams): Promise<Question[]> {

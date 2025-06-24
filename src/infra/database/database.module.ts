@@ -6,12 +6,14 @@ import { QuestionAttachmentsRepository } from '@/domain/forum/application/reposi
 import { QuestionCommentsRepository } from '@/domain/forum/application/repositories/question-comments.repository';
 import { QuestionsRepository } from '@/domain/forum/application/repositories/questions.repository';
 import { StudentsRepository } from '@/domain/forum/application/repositories/students.repository';
+import { NotificationsRepository } from '@/domain/notification/application/repositories/notification.repository';
 import { Module } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import { PrismaAnswerAttachmentsRepository } from './prisma/repositories/answer-attachments.repository';
 import { PrismaAnswerCommentsRepository } from './prisma/repositories/answer-comments.repository';
 import { PrismaAnswersRepository } from './prisma/repositories/answers.repository';
 import { PrismaAttachmentsRepository } from './prisma/repositories/attachments.repository';
+import { PrismaNotificationsRepository } from './prisma/repositories/notifications.repository';
 import { PrismaQuestionAttachmentsRepository } from './prisma/repositories/question-attachments.repository';
 import { PrismaQuestionCommentsRepository } from './prisma/repositories/question-comments.repository';
 import { PrismaQuestionsRepository } from './prisma/repositories/questions.repository';
@@ -52,6 +54,10 @@ import { PrismaStudentsRepository } from './prisma/repositories/students.reposit
 			provide: AttachmentsRepository,
 			useClass: PrismaAttachmentsRepository,
 		},
+		{
+			provide: NotificationsRepository,
+			useClass: PrismaNotificationsRepository,
+		},
 	],
 	exports: [
 		PrismaService,
@@ -63,6 +69,7 @@ import { PrismaStudentsRepository } from './prisma/repositories/students.reposit
 		AnswerCommentsRepository,
 		StudentsRepository,
 		AttachmentsRepository,
+		NotificationsRepository,
 	],
 })
 export class DatabaseModule {}
